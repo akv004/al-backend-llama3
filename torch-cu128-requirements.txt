@@ -1,0 +1,4 @@
+pytorch-triton==3.4.0+gitf7888497
+torch==2.9.0.dev20250808+cu128
+torchaudio==2.8.0.dev20250808+cu128
+torchvision==0.24.0.dev20250808+cu128

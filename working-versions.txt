@@ -1,0 +1,9 @@
+accelerate==1.10.0
+pytorch-triton==3.4.0+gitf7888497
+safetensors==0.6.2
+sentencepiece==0.2.0
+torch==2.9.0.dev20250808+cu128
+torchaudio==2.8.0.dev20250808+cu128
+torchvision==0.24.0.dev20250808+cu128
+transformers==4.55.0
+k
