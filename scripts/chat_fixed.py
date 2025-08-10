@@ -6,7 +6,7 @@ from huggingface_hub import snapshot_download
 
 # -------- CLI --------
 p = argparse.ArgumentParser(description="Llama 3 chat (deterministic, cache-first, RTX 5090 friendly)")
-p.add_argument("--base", default="meta-llama/Meta-Llama-3-8B",
+p.add_argument("--base", default="meta-llama/Meta-Llama-3-8B-Instruct",
                help="HF repo id or local path. If repo id, resolves to local cache first.")
 p.add_argument("--adapter", default="", help="Path to LoRA/QLoRA adapter dir (optional)")
 p.add_argument("--system", default="You are concise and accurate. Answer directly.")
@@ -90,12 +90,13 @@ def build_inputs():
     return tok(prompt, return_tensors="pt").to(model.device)
 
 def gen_cfg():
-    # deterministic decoding (no sampling), strict anti-repeat
+    # Use sampling for more natural, less repetitive conversation
     return GenerationConfig(
         max_new_tokens=args.max_new_tokens,
-        do_sample=False,
-        repetition_penalty=1.1,  # Lowered from 1.2 to be less aggressive
-        # no_repeat_ngram_size=6,  # Disabled, can be too restrictive with greedy search
+        do_sample=True,
+        temperature=0.6,
+        top_p=0.9,
+        repetition_penalty=1.1,
         eos_token_id=stop_ids,   # multiple stop tokens
         pad_token_id=tok.pad_token_id,
     )
